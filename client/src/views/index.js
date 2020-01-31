@@ -1,3 +1,4 @@
+/* global google */
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
@@ -28,15 +29,19 @@ class Home extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.input = React.createRef();
+        this.autocomplete = null
     }
 
-    handleChange(e){
-        this.setState({[e.target.name]:e.target.value})
+
+    handleChange(){
+
+        const loc = this.autocomplete.getPlace().address_components[0].long_name;
+        this.setState({location:loc})
     }
 
     handleSubmit(e){
         e.preventDefault();
-        console.log(this.state.location)
         this.setState({loading:true, error:''})
         fetch('http://localhost:7000/api/weather?address='+this.state.location).then((res)=>{
             res.json().then((data) =>{
@@ -54,6 +59,10 @@ class Home extends React.Component {
             tab: selectedTab
         });
     }
+    componentDidMount() {
+        this.autocomplete = new google.maps.places.Autocomplete(this.input.current, {"types":['geocode']})
+        this.autocomplete.addListener('place_changed', this.handleChange)
+    }
 
     render() {
 
@@ -63,7 +72,7 @@ class Home extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
                     <Container className="mt-4">
                        <Row>
-                          <Col lg={{span:6, offset: 3}} ><Form.Control name='location' type="search" onChange={this.handleChange} placeholder='Location' /></Col>
+                          <Col lg={{span:6, offset: 3}} ><input className="form-control" ref={this.input} name="location"  type="search"  placeholder='Location' /></Col>
                           <Col><Button variant="info" type='submit'>Search</Button></Col>
                       </Row>
                     </Container>

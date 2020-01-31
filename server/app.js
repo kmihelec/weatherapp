@@ -10,6 +10,8 @@ app.use(cors());
 
 const port = process.env.PORT || 7000;
 
+app.use(express.static(path.join(__dirname,'/../client/build')));
+
 
 app.get('/api/weather', async (req, res)=>{
     if(!req.query.address){
@@ -35,7 +37,9 @@ app.get('/api/weather', async (req, res)=>{
     }
 });
 
-
+app.get('/',(req,res)=>{
+    res.sendFile(path.join(__dirname,'/../client/build', 'index.html'))
+})
 
 
 app.listen(port, ()=>{
