@@ -43,7 +43,7 @@ class Home extends React.Component {
     handleSubmit(e){
         e.preventDefault();
         this.setState({loading:true, error:''})
-        fetch('http://localhost:7000/api/weather?address='+this.state.location).then((res)=>{
+        fetch('/api/weather?address='+this.state.location).then((res)=>{
             res.json().then((data) =>{
                 if(data.error){
                    this.setState({error:data.error, loading:false, loaded:false})
