@@ -1,6 +1,6 @@
 const geocode =(address)=> {
     const googleMaps = require('@google/maps').createClient({
-        key: 'AIzaSyBGKOTPM2etXpm9QibniVfQXFEWjQ-6yl0',
+        key: process.env.API_KEY,
         Promise: Promise
     });
 

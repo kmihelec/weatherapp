@@ -1,4 +1,5 @@
-const path = require('path');
+
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
@@ -10,7 +11,6 @@ app.use(cors());
 
 const port = process.env.PORT || 7000;
 
-
 app.get('/api/weather', async (req, res)=>{
     if(!req.query.address){
         return res.send({
@@ -18,7 +18,7 @@ app.get('/api/weather', async (req, res)=>{
         })
     }
     try {
-        const url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + encodeURIComponent(req.query.address) + '.json?access_token=pk.eyJ1IjoiZmV6MTIzNCIsImEiOiJjazF3ZDBwenIwMGpoM2RxdHl0MGx1MXhvIn0.RrR0GRwDXxId4FoQq7ZMdQ&limit=1';
+
         const location = await geocode(req.query.address)
         if(location.json.status === "ZERO_RESULTS"){
              return res.send({error:'Unable to find location!'})
