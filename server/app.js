@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -34,8 +33,6 @@ app.get('/api/weather', async (req, res)=>{
         res.send(e)
     }
 });
-
-
 
 
 app.listen(port, ()=>{
